@@ -48,7 +48,7 @@ extension UIImage{
       shouldInterpolate: false,
       intent: renderingIntent)
     
-    let image = UIImage(cgImage: imageRef!, scale: 0.0, orientation: UIImageOrientation.downMirrored)
+    let image = UIImage(cgImage: imageRef!, scale: 0.0, orientation: UIImage.Orientation.downMirrored)
     return image
   }
 }

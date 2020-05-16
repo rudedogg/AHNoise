@@ -47,17 +47,17 @@ open class AHNContext: NSObject {
   
   
   ///The `MTLDevice` used by the various noise classes to create buffers, pipelines and command encoders.
-  open let device: MTLDevice
+  public let device: MTLDevice
   
   
   
   ///The `MTLLibrary` that stores the `Metal` kernel functions used to create an manipulate noise.
-  open let library: MTLLibrary
+  public let library: MTLLibrary
   
   
   
   ///The `MTLCommandQueue` that is used to create `MTLCommandEncoder`s for each kernel.
-  open let commandQueue: MTLCommandQueue
+  public let commandQueue: MTLCommandQueue
   
   
   
