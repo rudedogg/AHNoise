@@ -76,6 +76,6 @@ open class AHNGeneratorWave: AHNGenerator  {
     
     memcpy(uniformBuffer!.contents(), &uniforms, MemoryLayout<WaveInputs>.stride)
     
-    commandEncoder.setBuffer(uniformBuffer, offset: 0, at: 0)
+    commandEncoder.setBuffer(uniformBuffer, offset: 0, index: 0)
   }  
 }

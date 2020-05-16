@@ -82,6 +82,6 @@ open class AHNModifierRound: AHNModifier {
     
     memcpy(uniformBuffer!.contents(), &uniforms, MemoryLayout<Float>.stride)
     
-    commandEncoder.setBuffer(uniformBuffer, offset: 0, at: 0)
+    commandEncoder.setBuffer(uniformBuffer, offset: 0, index: 0)
   }
 }

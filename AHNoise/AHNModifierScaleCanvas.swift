@@ -178,7 +178,7 @@ open class AHNModifierScaleCanvas: NSObject, AHNTextureProvider {
     
     memcpy(uniformBuffer!.contents(), &uniforms, MemoryLayout<AHNScaleCanvasProperties>.stride)
     
-    commandEncoder.setBuffer(uniformBuffer, offset: 0, at: 0)
+    commandEncoder.setBuffer(uniformBuffer, offset: 0, index: 0)
   }
   
   
@@ -214,12 +214,12 @@ open class AHNModifierScaleCanvas: NSObject, AHNTextureProvider {
     let threadGroupsCount = MTLSizeMake(8, 8, 1)
     let threadGroups = MTLSizeMake(textureWidth / threadGroupsCount.width, textureHeight / threadGroupsCount.height, 1)
     
-    let commandBuffer = context.commandQueue.makeCommandBuffer()
+    let commandBuffer = context.commandQueue.makeCommandBuffer()!
     
-    let commandEncoder = commandBuffer.makeComputeCommandEncoder()
+    let commandEncoder = commandBuffer.makeComputeCommandEncoder()!
     commandEncoder.setComputePipelineState(pipeline)
-    commandEncoder.setTexture(provider!.texture(), at: 0)
-    commandEncoder.setTexture(internalTexture, at: 1)
+    commandEncoder.setTexture(provider!.texture(), index: 0)
+    commandEncoder.setTexture(internalTexture, index: 1)
     configureArgumentTableWithCommandencoder(commandEncoder)
     commandEncoder.dispatchThreadgroups(threadGroups, threadsPerThreadgroup: threadGroupsCount)
     commandEncoder.endEncoding()
@@ -234,6 +234,7 @@ open class AHNModifierScaleCanvas: NSObject, AHNTextureProvider {
   ///Create a new `internalTexture` for the first time or whenever the texture is resized.
   func newInternalTexture(){
     let textureDescriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .rgba8Unorm, width: textureWidth, height: textureHeight, mipmapped: false)
+    textureDescriptor.usage = [.shaderRead, .shaderWrite]
     internalTexture = context.device.makeTexture(descriptor: textureDescriptor)
   }
   

@@ -177,7 +177,7 @@ open class AHNModifierColour: AHNModifier {
       uniformBuffer = context.device.makeBuffer(length: bufferSize, options: MTLResourceOptions())
     }
     memcpy(uniformBuffer!.contents(), &uniformsColours, bufferSize)
-    commandEncoder.setBuffer(uniformBuffer, offset: 0, at: 0)
+    commandEncoder.setBuffer(uniformBuffer, offset: 0, index: 0)
     
     // Create positions buffer and copy data
     bufferSize = MemoryLayout<Float>.stride * _positions.count
@@ -185,7 +185,7 @@ open class AHNModifierColour: AHNModifier {
       positionBuffer = context.device.makeBuffer(length: bufferSize, options: MTLResourceOptions())
     }
     memcpy(positionBuffer!.contents(), &_positions, bufferSize)
-    commandEncoder.setBuffer(positionBuffer, offset: 0, at: 1)
+    commandEncoder.setBuffer(positionBuffer, offset: 0, index: 1)
     
     // Create intensities buffer and copy data
     bufferSize = MemoryLayout<Float>.stride * _intensities.count
@@ -193,7 +193,7 @@ open class AHNModifierColour: AHNModifier {
       intensityBuffer = context.device.makeBuffer(length: bufferSize, options: MTLResourceOptions())
     }
     memcpy(intensityBuffer!.contents(), &_intensities, bufferSize)
-    commandEncoder.setBuffer(intensityBuffer, offset: 0, at: 2)
+    commandEncoder.setBuffer(intensityBuffer, offset: 0, index: 2)
     
     // Create the colour count buffer and copy data
     bufferSize = MemoryLayout<Float>.stride
@@ -202,7 +202,7 @@ open class AHNModifierColour: AHNModifier {
     }
     var count = colourCount
     memcpy(countBuffer!.contents(), &count, bufferSize)
-    commandEncoder.setBuffer(countBuffer, offset: 0, at: 3)
+    commandEncoder.setBuffer(countBuffer, offset: 0, index: 3)
   }
 
 

@@ -139,7 +139,7 @@ open class AHNModifierMapNormal: NSObject, AHNTextureProvider {
     
     guard var image = provider?.uiImage() else { return }
     guard var ciImage = CIImage(image: image) else { return }
-    ciImage = ciImage.applying(CGAffineTransform(scaleX: 1, y: -1))
+    ciImage = ciImage.transformed(by: CGAffineTransform(scaleX: 1, y: -1))
     let ciContext = CIContext(options: nil)
     image = UIImage(cgImage: ciContext.createCGImage(ciImage, from: ciImage.extent)!)
     
@@ -148,7 +148,7 @@ open class AHNModifierMapNormal: NSObject, AHNTextureProvider {
     let normal = sprite.generatingNormalMap(withSmoothness: CGFloat(smoothing), contrast: CGFloat(intensity))
     let loader = MTKTextureLoader(device: context.device)
     do{
-      try internalTexture = loader.newTexture(with: normal.cgImage(), options: nil)
+      try internalTexture = loader.newTexture(cgImage: normal.cgImage(), options: nil)
     }catch{
       fatalError()
     }
@@ -160,6 +160,7 @@ open class AHNModifierMapNormal: NSObject, AHNTextureProvider {
   ///Create a new `internalTexture` for the first time or whenever the texture is resized.
   func newInternalTexture(){
     let textureDescriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .rgba8Unorm, width: textureWidth, height: textureHeight, mipmapped: false)
+    textureDescriptor.usage = [.shaderRead, .shaderWrite]
     internalTexture = context.device.makeTexture(descriptor: textureDescriptor)
   }
   

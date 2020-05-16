@@ -73,6 +73,6 @@ open class AHNCombinerAdd: AHNCombiner {
     
     memcpy(uniformBuffer!.contents(), &uniforms, MemoryLayout<Bool>.stride)
     
-    commandEncoder.setBuffer(uniformBuffer, offset: 0, at: 0)
+    commandEncoder.setBuffer(uniformBuffer, offset: 0, index: 0)
   }
 }

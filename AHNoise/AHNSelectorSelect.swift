@@ -90,6 +90,6 @@ open class AHNSelectorSelect: AHNSelector {
     memcpy(uniformBuffer!.contents(), &uniforms, MemoryLayout<vector_float2>.stride)
     
     // Set the buffer in the argument table
-    commandEncoder.setBuffer(uniformBuffer, offset: 0, at: 0)
+    commandEncoder.setBuffer(uniformBuffer, offset: 0, index: 0)
   }
 }

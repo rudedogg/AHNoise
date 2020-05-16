@@ -213,16 +213,16 @@ open class AHNModifier: NSObject, AHNTextureProvider {
     let threadGroupsCount = MTLSizeMake(8, 8, 1)
     let threadGroups = MTLSizeMake(width / threadGroupsCount.width, height / threadGroupsCount.height, 1)
     
-    let commandBuffer = context.commandQueue.makeCommandBuffer()
+    let commandBuffer = context.commandQueue.makeCommandBuffer()!
     
     // If an MPS is being used, encode it to the command buffer, else create a command encoder for a custom kernel
     if usesMPS{
       addMetalPerformanceShaderToBuffer(commandBuffer)
     }else{
-      let commandEncoder = commandBuffer.makeComputeCommandEncoder()
+      let commandEncoder = commandBuffer.makeComputeCommandEncoder()!
       commandEncoder.setComputePipelineState(pipeline)
-      commandEncoder.setTexture(provider!.texture(), at: 0)
-      commandEncoder.setTexture(internalTexture, at: 1)
+      commandEncoder.setTexture(provider!.texture(), index: 0)
+      commandEncoder.setTexture(internalTexture, index: 1)
       configureArgumentTableWithCommandencoder(commandEncoder)
       commandEncoder.dispatchThreadgroups(threadGroups, threadsPerThreadgroup: threadGroupsCount)
       commandEncoder.endEncoding()
@@ -238,6 +238,7 @@ open class AHNModifier: NSObject, AHNTextureProvider {
   ///Create a new `internalTexture` for the first time or whenever the texture is resized.
   func newInternalTexture(){
     let textureDescriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .rgba8Unorm, width: width, height: height, mipmapped: false)
+    textureDescriptor.usage = [.shaderRead, .shaderWrite]
     internalTexture = context.device.makeTexture(descriptor: textureDescriptor)
   }
   

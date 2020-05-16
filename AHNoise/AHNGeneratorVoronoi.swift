@@ -65,6 +65,6 @@ open class AHNGeneratorVoronoi: AHNGeneratorCoherent {
       uniformBuffer = context.device.makeBuffer(length: MemoryLayout<VoronoiInputs>.stride, options: .storageModeShared)
     }
     memcpy(uniformBuffer!.contents(), &uniforms, MemoryLayout<VoronoiInputs>.stride)
-    commandEncoder.setBuffer(uniformBuffer, offset: 0, at: 4)
+    commandEncoder.setBuffer(uniformBuffer, offset: 0, index: 4)
   }
 }

@@ -236,13 +236,13 @@ open class AHNGenerator: NSObject, AHNTextureProvider {
     let threadGroupsCount = MTLSizeMake(8, 8, 1)
     let threadGroups = MTLSizeMake(textureWidth / threadGroupsCount.width, textureHeight / threadGroupsCount.height, 1)
     
-    let commandBuffer = context.commandQueue.makeCommandBuffer()
+    let commandBuffer = context.commandQueue.makeCommandBuffer()!
     
-    let commandEncoder = commandBuffer.makeComputeCommandEncoder()
+    let commandEncoder = commandBuffer.makeComputeCommandEncoder()!
     commandEncoder.setComputePipelineState(pipeline)
-    commandEncoder.setTexture(internalTexture, at: 0)
-    commandEncoder.setTexture(xoffsetInput?.texture() ?? defaultDisplaceTexture!, at: 1)
-    commandEncoder.setTexture(yoffsetInput?.texture() ?? defaultDisplaceTexture!, at: 2)
+    commandEncoder.setTexture(internalTexture, index: 0)
+    commandEncoder.setTexture(xoffsetInput?.texture() ?? defaultDisplaceTexture!, index: 1)
+    commandEncoder.setTexture(yoffsetInput?.texture() ?? defaultDisplaceTexture!, index: 2)
     
     configureArgumentTableWithCommandencoder(commandEncoder)
     commandEncoder.dispatchThreadgroups(threadGroups, threadsPerThreadgroup: threadGroupsCount)
@@ -259,6 +259,7 @@ open class AHNGenerator: NSObject, AHNTextureProvider {
   ///Create a new `internalTexture` for the first time or whenever the texture is resized.
   func newInternalTexture(){
     let textureDescriptor = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .rgba8Unorm, width: textureWidth, height: textureHeight, mipmapped: false)
+    textureDescriptor.usage = [.shaderRead, .shaderWrite]
     internalTexture = context.device.makeTexture(descriptor: textureDescriptor)
     
     
@@ -267,7 +268,6 @@ open class AHNGenerator: NSObject, AHNTextureProvider {
     for _ in 0..<textureWidth*textureHeight{
       textureBytes.append(contentsOf: grey)
     }
-    textureDescriptor.usage = .shaderRead
     defaultDisplaceTexture = context.device.makeTexture(descriptor: textureDescriptor)
     defaultDisplaceTexture?.replace(region: MTLRegionMake2D(0, 0, textureWidth, textureHeight), mipmapLevel: 0, withBytes: &textureBytes, bytesPerRow: 4*textureWidth)
   }

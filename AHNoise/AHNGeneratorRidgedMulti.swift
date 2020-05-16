@@ -53,6 +53,6 @@ open class AHNGeneratorRidgedMulti: AHNGeneratorCoherent {
 
     memcpy(uniformBuffer!.contents(), &uniforms, MemoryLayout<CoherentInputs>.stride)
     
-    commandEncoder.setBuffer(uniformBuffer, offset: 0, at: 4)
+    commandEncoder.setBuffer(uniformBuffer, offset: 0, index: 4)
   }
 }

@@ -102,6 +102,6 @@ open class AHNModifierClamp: AHNModifier {
     
     memcpy(uniformBuffer!.contents(), &uniforms, MemoryLayout<ClampModifierUniforms>.stride)
     
-    commandEncoder.setBuffer(uniformBuffer, offset: 0, at: 0)
+    commandEncoder.setBuffer(uniformBuffer, offset: 0, index: 0)
   }
 }
