@@ -1,3 +1,4 @@
+# You probably want https://github.com/rudedogg/NoiseKit
 # AHNoise
 ## A procedural, cohesive, modular noise library built using Metal and Swift
 
